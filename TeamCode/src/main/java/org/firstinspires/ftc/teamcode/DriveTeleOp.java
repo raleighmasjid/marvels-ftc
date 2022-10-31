@@ -4,8 +4,10 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 //import com.arcrobotics.ftclib.hardware.RevIMU;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 // This is the main TeleOp, with full bot functionality as well as telemetry
 @TeleOp(name="TeleOp testing", group="Marvels FTC")
@@ -30,7 +32,8 @@ public class DriveTeleOp extends LinearOpMode {
         double x = 0;
         double y = 0;
         double z = 0;
-
+        boolean spin = false;
+        ElapsedTime timer = new ElapsedTime();
         //Wait for the driver to hit Start
         waitForStart();
 
@@ -41,7 +44,31 @@ public class DriveTeleOp extends LinearOpMode {
             double leftX = Gamepad1.getLeftX();
             double rightX = Gamepad1.getRightX();
 
-            bot.driveRobotCentric(leftX, leftY, rightX);
+            if (Gamepad1.getButton(GamepadKeys.Button.A)){
+                spin = true;
+                timer.reset();
+            }
+            if (Gamepad1.getButton(GamepadKeys.Button.DPAD_DOWN)){
+                bot.runSlide(-0.4);
+            }
+            else if (Gamepad1.getButton(GamepadKeys.Button.DPAD_UP)){
+                bot.runSlide(0.4);
+            }
+            else{
+                bot.runSlide(0);
+            }
+
+            if (!spin){
+                bot.driveRobotCentric(leftX, leftY, rightX);
+            }else{
+                if (timer.seconds() > 2.0){
+                    timer.reset();
+                    spin = false;
+                }
+                bot.driveRobotCentric(leftX, leftY, 0.85);
+            }
+
+
             telemetry.addData("Status", "power: x:" + x + " y:" + y + " z:" + z);
             telemetry.update();
 

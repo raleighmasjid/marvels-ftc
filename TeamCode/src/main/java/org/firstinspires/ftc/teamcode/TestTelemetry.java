@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 // This is the main TeleOp, with full bot functionality as well as telemetry
-@TeleOp(name="TeleOp with FieldCentric", group="Apex Robotics 3916")
+@TeleOp(name="Telemetry Test", group="Apex Robotics 3916")
 //@Disabled
 public class TestTelemetry extends LinearOpMode {
     @Override
