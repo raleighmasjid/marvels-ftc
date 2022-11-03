@@ -3,12 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_RPM;
 
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
-import com.arcrobotics.ftclib.hardware.ServoEx;
 import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 
@@ -23,6 +21,8 @@ public class MarvelsMecanumDrive {
 
     public MecanumDrive mecanumDrivetrain;
 
+    private boolean clawOpen = true;
+
     private static final double TICKS_PER_REV = DriveConstants.TICKS_PER_REV;
 
     public void driveRobotCentric (double x, double y, double z){
@@ -33,8 +33,20 @@ public class MarvelsMecanumDrive {
     public void runSlide (double power){
         lift_motor.set(power);
     }
-    public void setClaw (double position){
-        claw.setPosition(position);
+
+
+    public void runClaw(){
+        if (clawOpen){
+            claw.setPosition(TeleOpConfig.CLAW_OPEN);
+        }
+        else{
+            claw.setPosition(TeleOpConfig.CLAW_CLOSED);
+        }
+    }
+
+
+    public void toggleClaw (){
+        clawOpen = !clawOpen;
     }
     public void init(HardwareMap hw) {
         //cache the HardwareMap

@@ -34,6 +34,7 @@ public class DriveTeleOp extends LinearOpMode {
         double z = 0;
         boolean spin = false;
         ElapsedTime timer = new ElapsedTime();
+        ElapsedTime toggleTimer = new ElapsedTime();
         //Wait for the driver to hit Start
         waitForStart();
 
@@ -50,22 +51,23 @@ public class DriveTeleOp extends LinearOpMode {
             }
 
             if (Gamepad1.getButton(GamepadKeys.Button.DPAD_DOWN)){
-                bot.runSlide(-0.4);
+                bot.runSlide(-TeleOpConfig.SLIDE_SPEED);
             }
             else if (Gamepad1.getButton(GamepadKeys.Button.DPAD_UP)){
-                bot.runSlide(0.4);
+                bot.runSlide(TeleOpConfig.SLIDE_SPEED);
             }
             else{
                 bot.runSlide(0);
             }
 
-            if (Gamepad1.getButton(GamepadKeys.Button.RIGHT_BUMPER)){
-                bot.setClaw(0);
+            if (Gamepad1.getButton(GamepadKeys.Button.B)){
+                if (toggleTimer.seconds() > 0.3){
+                    bot.toggleClaw();
+                }
+                toggleTimer.reset();
             }
 
-            if (Gamepad1.getButton(GamepadKeys.Button.LEFT_BUMPER)){
-                bot.setClaw(1);
-            }
+            bot.runClaw();
 
             if (!spin){
                 bot.driveRobotCentric(leftX, leftY, rightX);
@@ -74,7 +76,7 @@ public class DriveTeleOp extends LinearOpMode {
                     timer.reset();
                     spin = false;
                 }
-                bot.driveRobotCentric(leftX, leftY, 0.85);
+                bot.driveRobotCentric(leftX, leftY, TeleOpConfig.SPIN_SPEED);
             }
 
 
