@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="TeleOp testing", group="Marvels FTC")
 //@Disabled
 public class DriveTeleOp extends LinearOpMode {
-    private MarvelsMecanumDrive bot = new MarvelsMecanumDrive();
+    private final MarvelsMecanumDrive bot = new MarvelsMecanumDrive();
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -48,6 +48,7 @@ public class DriveTeleOp extends LinearOpMode {
                 spin = true;
                 timer.reset();
             }
+
             if (Gamepad1.getButton(GamepadKeys.Button.DPAD_DOWN)){
                 bot.runSlide(-0.4);
             }
@@ -56,6 +57,14 @@ public class DriveTeleOp extends LinearOpMode {
             }
             else{
                 bot.runSlide(0);
+            }
+
+            if (Gamepad1.getButton(GamepadKeys.Button.RIGHT_BUMPER)){
+                bot.setClaw(0);
+            }
+
+            if (Gamepad1.getButton(GamepadKeys.Button.LEFT_BUMPER)){
+                bot.setClaw(1);
             }
 
             if (!spin){

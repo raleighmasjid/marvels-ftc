@@ -18,7 +18,7 @@ public class MarvelsMecanumDrive {
     public MotorEx motor_frontRight;
     public MotorEx motor_backLeft;
     public MotorEx motor_backRight;
-    public MotorEx motor_slide;
+    public MotorEx lift_motor;
     public SimpleServo claw;
 
     public MecanumDrive mecanumDrivetrain;
@@ -31,7 +31,7 @@ public class MarvelsMecanumDrive {
 
     }
     public void runSlide (double power){
-        motor_slide.set(power);
+        lift_motor.set(power);
     }
     public void setClaw (double position){
         claw.setPosition(position);
@@ -39,8 +39,6 @@ public class MarvelsMecanumDrive {
     public void init(HardwareMap hw) {
         //cache the HardwareMap
         this.hw = hw;
-
-
 
         //Assign motors using their hardware map names, each drivetype can have different names if needed
         motor_frontLeft = new MotorEx(hw, "left front", TICKS_PER_REV, MAX_RPM);
@@ -53,7 +51,7 @@ public class MarvelsMecanumDrive {
 
         claw = new SimpleServo(hw,"claw",0,180);
 
-        motor_slide = new MotorEx(hw, "slide", TICKS_PER_REV, MAX_RPM);
+        lift_motor = new MotorEx(hw, "lift motor", TICKS_PER_REV, MAX_RPM);
 
         motor_frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motor_frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
