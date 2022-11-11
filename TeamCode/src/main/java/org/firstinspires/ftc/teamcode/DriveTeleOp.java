@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="TeleOp testing", group="Marvels FTC")
 //@Disabled
 public class DriveTeleOp extends LinearOpMode {
-    private final MarvelsMecanumDrive bot = new MarvelsMecanumDrive();
+    private final PowerPlayRobot bot = new PowerPlayRobot();
     @Override
     public void runOpMode() throws InterruptedException {
 
