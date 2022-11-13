@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-//import com.arcrobotics.ftclib.hardware.RevIMU;
+import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -72,11 +72,30 @@ public class DriveTeleOp extends LinearOpMode {
             if (!spin){
                 bot.driveRobotCentric(leftX, leftY, rightX);
             }else{
-                if (timer.seconds() > 2.0){
+                if (timer.seconds() > 4.0){
                     timer.reset();
                     spin = false;
                 }
-                bot.driveRobotCentric(leftX, leftY, TeleOpConfig.SPIN_SPEED);
+               // bot.driveRobotCentric(leftX, leftY, TeleOpConfig.SPIN_SPEED);
+                bot.driveRobotCentric(0,.5, 0);
+                sleep(3000);
+                bot.driveRobotCentric(0,-.5,0);
+                sleep(1500);
+                bot.driveRobotCentric(.5,0,0);
+                sleep(2000);
+                bot.driveRobotCentric(0,.5,0);
+                sleep(1500);
+                bot.driveRobotCentric(0,-.5,0);
+                sleep(3000);
+                //end of H start of I
+                bot.driveRobotCentric(0,0,0);
+                sleep(4000);
+                bot.driveRobotCentric(.5,0,0);
+                sleep(1000);
+                bot.driveRobotCentric(0,.5,0);
+                sleep(3000);
+                bot.driveRobotCentric(0,0,1);
+                sleep(5000);
             }
 
 
