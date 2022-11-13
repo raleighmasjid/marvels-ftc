@@ -16,5 +16,5 @@ karim elbeck
 Rashad Owoyemi  
 Ali Elmoutawakil  
 Muhammed Atere  
-Ayse Bayraktar 
-Hamza Sheikhyusuf  
+Ayse Bayraktar  
+Hamza Sheikhyusuf    
