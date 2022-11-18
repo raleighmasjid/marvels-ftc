@@ -16,8 +16,8 @@ public class MarvelsMecanumDrive {
     public MotorEx motor_frontRight;
     public MotorEx motor_backLeft;
     public MotorEx motor_backRight;
-    public MotorEx lift_motor;
-    public SimpleServo claw;
+//    public MotorEx lift_motor;
+//    public SimpleServo claw;
 
     public MecanumDrive mecanumDrivetrain;
 
@@ -30,24 +30,24 @@ public class MarvelsMecanumDrive {
         mecanumDrivetrain.driveRobotCentric(x,y,z);
 
     }
-    public void runSlide (double power){
-        lift_motor.set(power);
-    }
+//    public void runSlide (double power){
+//        lift_motor.set(power);
+//    }
 
 
-    public void runClaw(){
-        if (clawOpen){
-            claw.setPosition(TeleOpConfig.CLAW_OPEN);
-        }
-        else{
-            claw.setPosition(TeleOpConfig.CLAW_CLOSED);
-        }
-    }
-
-
-    public void toggleClaw (){
-        clawOpen = !clawOpen;
-    }
+//    public void runClaw(){
+//        if (clawOpen){
+//            claw.setPosition(TeleOpConfig.CLAW_OPEN);
+//        }
+//        else{
+//            claw.setPosition(TeleOpConfig.CLAW_CLOSED);
+//        }
+//    }
+//
+//
+//    public void toggleClaw (){
+//        clawOpen = !clawOpen;
+//    }
     public void init(HardwareMap hw) {
         //cache the HardwareMap
         this.hw = hw;
@@ -61,9 +61,9 @@ public class MarvelsMecanumDrive {
         motor_frontRight.setInverted(true);
         //motor_backRight.setInverted(true);
 
-        claw = new SimpleServo(hw,"claw",0,180);
+//        claw = new SimpleServo(hw,"claw",0,180);
 
-        lift_motor = new MotorEx(hw, "lift motor", TICKS_PER_REV, MAX_RPM);
+//        lift_motor = new MotorEx(hw, "lift motor", TICKS_PER_REV, MAX_RPM);
 
         motor_frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motor_frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);

@@ -49,25 +49,25 @@ public class DriveTeleOp extends LinearOpMode {
                 spin = true;
                 timer.reset();
             }
-
-            if (Gamepad1.getButton(GamepadKeys.Button.DPAD_DOWN)){
-                bot.runSlide(-TeleOpConfig.SLIDE_SPEED);
-            }
-            else if (Gamepad1.getButton(GamepadKeys.Button.DPAD_UP)){
-                bot.runSlide(TeleOpConfig.SLIDE_SPEED);
-            }
-            else{
-                bot.runSlide(0);
-            }
-
-            if (Gamepad1.getButton(GamepadKeys.Button.B)){
-                if (toggleTimer.seconds() > 0.3){
-                    bot.toggleClaw();
-                }
-                toggleTimer.reset();
-            }
-
-            bot.runClaw();
+//
+//            if (Gamepad1.getButton(GamepadKeys.Button.DPAD_DOWN)){
+//                bot.runSlide(-TeleOpConfig.SLIDE_SPEED);
+//            }
+//            else if (Gamepad1.getButton(GamepadKeys.Button.DPAD_UP)){
+//                bot.runSlide(TeleOpConfig.SLIDE_SPEED);
+//            }
+//            else{
+//                bot.runSlide(0);
+//            }
+//
+//            if (Gamepad1.getButton(GamepadKeys.Button.B)){
+//                if (toggleTimer.seconds() > 0.3){
+//                    bot.toggleClaw();
+//                }
+//                toggleTimer.reset();
+//            }
+//
+//            bot.runClaw();
 
             if (!spin){
                 bot.driveRobotCentric(leftX, leftY, rightX);
