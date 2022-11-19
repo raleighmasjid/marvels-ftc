@@ -58,8 +58,8 @@ public class MarvelsMecanumDrive {
         motor_backLeft = new MotorEx(hw, "left back", TICKS_PER_REV, MAX_RPM);
         motor_backRight = new MotorEx(hw, "right back", TICKS_PER_REV, MAX_RPM);
 
-        motor_frontRight.setInverted(true);
-        //motor_backRight.setInverted(true);
+        //motor_frontRight.setInverted(false);
+        //motor_backRight.setInverted(false);
 
 //        claw = new SimpleServo(hw,"claw",0,180);
 

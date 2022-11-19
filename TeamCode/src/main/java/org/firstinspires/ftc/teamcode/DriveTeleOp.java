@@ -70,7 +70,7 @@ public class DriveTeleOp extends LinearOpMode {
 //            bot.runClaw();
 
             if (!spin){
-                bot.driveRobotCentric(leftX, leftY, rightX);
+                bot.driveRobotCentric(leftX, leftY, -1*rightX);
             }else{
                 if (timer.seconds() > 2.0){
                     timer.reset();
