@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.arcrobotics.ftclib.gamepad.ButtonReader;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 //import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -26,6 +27,10 @@ public class DriveTeleOp extends LinearOpMode {
         //RevIMU imu = new RevIMU(hardwareMap);
         GamepadEx Gamepad1 = new GamepadEx(gamepad1);
         GamepadEx Gamepad2 = new GamepadEx(gamepad2);
+
+        ButtonReader reader = new ButtonReader(
+                Gamepad1, GamepadKeys.Button.B
+        );
         //imu.init();
 
         //Initialize working variables
@@ -33,22 +38,20 @@ public class DriveTeleOp extends LinearOpMode {
         double y = 0;
         double z = 0;
         boolean spin = false;
-        ElapsedTime timer = new ElapsedTime();
-        ElapsedTime toggleTimer = new ElapsedTime();
+
         //Wait for the driver to hit Start
         waitForStart();
 
 
         while (opModeIsActive()) {
+            telemetry.addData("Status", "servo: servoRight:" + bot.clawOpen);
             //Get stick inputs
             double leftY = Gamepad1.getLeftY();
             double leftX = Gamepad1.getLeftX();
             double rightX = Gamepad1.getRightX();
+            reader.readValue();
 
-            if (Gamepad1.getButton(GamepadKeys.Button.A)){
-                spin = true;
-                timer.reset();
-            }
+
 //
 //            if (Gamepad1.getButton(GamepadKeys.Button.DPAD_DOWN)){
 //                bot.runSlide(-TeleOpConfig.SLIDE_SPEED);
@@ -60,26 +63,16 @@ public class DriveTeleOp extends LinearOpMode {
 //                bot.runSlide(0);
 //            }
 //
-//            if (Gamepad1.getButton(GamepadKeys.Button.B)){
-//                if (toggleTimer.seconds() > 0.3){
-//                    bot.toggleClaw();
-//                }
-//                toggleTimer.reset();
-//            }
-//
-//            bot.runClaw();
-
-            if (!spin){
-                bot.driveRobotCentric(leftX, leftY, -1*rightX);
-            }else{
-                if (timer.seconds() > 2.0){
-                    timer.reset();
-                    spin = false;
-                }
-                bot.driveRobotCentric(leftX, leftY, TeleOpConfig.SPIN_SPEED);
+            if (reader.wasJustPressed()){
+                bot.toggleClaw();
             }
+//
 
 
+           bot.driveRobotCentric(leftX, leftY, rightX);
+
+
+            bot.runClaw();
             telemetry.addData("Status", "power: x:" + x + " y:" + y + " z:" + z);
             telemetry.update();
 

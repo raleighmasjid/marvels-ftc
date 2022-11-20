@@ -17,11 +17,12 @@ public class MarvelsMecanumDrive {
     public MotorEx motor_backLeft;
     public MotorEx motor_backRight;
 //    public MotorEx lift_motor;
-//    public SimpleServo claw;
+    public SimpleServo clawLeft;
+    public SimpleServo clawRight;
 
     public MecanumDrive mecanumDrivetrain;
 
-    private boolean clawOpen = true;
+    public boolean clawOpen = true;
 
     private static final double TICKS_PER_REV = DriveConstants.TICKS_PER_REV;
 
@@ -35,19 +36,21 @@ public class MarvelsMecanumDrive {
 //    }
 
 
-//    public void runClaw(){
-//        if (clawOpen){
-//            claw.setPosition(TeleOpConfig.CLAW_OPEN);
-//        }
-//        else{
-//            claw.setPosition(TeleOpConfig.CLAW_CLOSED);
-//        }
-//    }
-//
-//
-//    public void toggleClaw (){
-//        clawOpen = !clawOpen;
-//    }
+    public void runClaw(){
+        if (clawOpen){
+            clawLeft.setPosition(TeleOpConfig.CLAW_LEFT_OPEN);
+            clawRight.setPosition(TeleOpConfig.CLAW_RIGHT_OPEN);
+        }
+        else{
+            clawLeft.setPosition(TeleOpConfig.CLAW_LEFT_CLOSED);
+            clawRight.setPosition(TeleOpConfig.CLAW_RIGHT_CLOSED);
+        }
+    }
+
+
+    public void toggleClaw (){
+        clawOpen = !clawOpen;
+    }
     public void init(HardwareMap hw) {
         //cache the HardwareMap
         this.hw = hw;
@@ -61,7 +64,8 @@ public class MarvelsMecanumDrive {
         //motor_frontRight.setInverted(false);
         //motor_backRight.setInverted(false);
 
-//        claw = new SimpleServo(hw,"claw",0,180);
+        clawLeft = new SimpleServo(hw,"claw left",0,180);
+        clawRight = new SimpleServo(hw,"claw right",0,180);
 
 //        lift_motor = new MotorEx(hw, "lift motor", TICKS_PER_REV, MAX_RPM);
 
