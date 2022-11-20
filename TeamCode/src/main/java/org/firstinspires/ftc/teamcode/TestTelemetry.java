@@ -3,13 +3,11 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 // This is the main TeleOp, with full bot functionality as well as telemetry
-@TeleOp(name="TeleOp with FieldCentric", group="Apex Robotics 3916")
+@TeleOp(name="Telemetry Test", group="Apex Robotics 3916")
 //@Disabled
 public class TestTelemetry extends LinearOpMode {
     @Override
@@ -19,10 +17,8 @@ public class TestTelemetry extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         FtcDashboard dashboard = FtcDashboard.getInstance();
 
-        RevIMU imu = new RevIMU(hardwareMap);
         GamepadEx Gamepad1 = new GamepadEx(gamepad1);
         GamepadEx Gamepad2 = new GamepadEx(gamepad2);
-        imu.init();
 
         //Initialize working variables
         double x = 0;
