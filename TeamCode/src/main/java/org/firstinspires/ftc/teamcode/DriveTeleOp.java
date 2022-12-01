@@ -14,12 +14,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="TeleOp testing", group="Marvels FTC")
 //@Disabled
 public class DriveTeleOp extends LinearOpMode {
-    private final MarvelsMecanumDrive bot = new MarvelsMecanumDrive();
+    private MarvelsMecanumDrive bot = new MarvelsMecanumDrive();
     @Override
     public void runOpMode() throws InterruptedException {
 
         //Initialize telemetry and dashboard
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        MultipleTelemetry mytelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         FtcDashboard dashboard = FtcDashboard.getInstance();
 
         bot.init(hardwareMap);
@@ -69,14 +69,13 @@ public class DriveTeleOp extends LinearOpMode {
 //
 
 
-           bot.driveRobotCentric(leftX, leftY, rightX);
+            bot.driveRobotCentric(leftX, leftY, rightX);
 
 
             bot.runClaw();
-            telemetry.addData("Status", "power: x:" + x + " y:" + y + " z:" + z);
-            telemetry.update();
+            mytelemetry.addData("Status", "power: x:" + x + " y:" + y + " z:" + z);
+            mytelemetry.update();
 
         }
     }
 }
-
