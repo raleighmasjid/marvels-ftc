@@ -14,7 +14,7 @@ public class TestTelemetry extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         //Initialize telemetry and dashboard
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+       // telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         FtcDashboard dashboard = FtcDashboard.getInstance();
 
         GamepadEx Gamepad1 = new GamepadEx(gamepad1);
@@ -30,7 +30,7 @@ public class TestTelemetry extends LinearOpMode {
 
 
         while (opModeIsActive()) {
-            telemetry.addData("Status", "power: x:" + x + " y:" + y + " z:" + z);
+            //telemetry.addData("Status", "power: x:" + x + " y:" + y + " z:" + z);
 //            telemetry.addData("Front Left Motor", "pos: "+bot.motor_frontLeft.encoder.getPosition());
 //            telemetry.addData("Front Right Motor", "pos: "+bot.motor_frontRight.encoder.getPosition());
 //            telemetry.addData("Back Left Motor", "pos: "+bot.motor_backLeft.encoder.getPosition());
@@ -39,7 +39,7 @@ public class TestTelemetry extends LinearOpMode {
 //            telemetry.addData("Forearm Motor", "pos: "+bot.forearmMotor.encoder.getPosition());
 //            telemetry.addData("Limit Switch", "val: "+bot.slideLimit.getValue());
 //            telemetry.addData("Limit Switch", "isTouched"+bot.slideLimit.isPressed());
-            telemetry.update();
+         //   telemetry.update();
             x++; y++; z++;
         }
     }
