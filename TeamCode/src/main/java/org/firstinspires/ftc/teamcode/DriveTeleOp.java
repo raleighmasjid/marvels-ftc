@@ -15,6 +15,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 //@Disabled
 public class DriveTeleOp extends LinearOpMode {
     private MarvelsMecanumDrive bot = new MarvelsMecanumDrive();
+
+    ElapsedTime timer = new ElapsedTime();
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -28,9 +31,6 @@ public class DriveTeleOp extends LinearOpMode {
         GamepadEx Gamepad1 = new GamepadEx(gamepad1);
         GamepadEx Gamepad2 = new GamepadEx(gamepad2);
 
-        ButtonReader reader = new ButtonReader(
-                Gamepad1, GamepadKeys.Button.B
-        );
         //imu.init();
 
         //Initialize working variables
@@ -46,10 +46,16 @@ public class DriveTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
             telemetry.addData("Status", "servo: servoRight:" + bot.clawOpen);
             //Get stick inputs
+            bot.runClaw();
             double leftY = Gamepad1.getLeftY();
             double leftX = Gamepad1.getLeftX();
             double rightX = Gamepad1.getRightX();
-            reader.readValue();
+            if (Gamepad1.getButton(GamepadKeys.Button.B)){
+                //mytelemetry.addData("Status", "power1: x:" + x + " y:" + y + " z:" + z);
+                bot.toggleClaw();
+
+                //timer.reset();
+            }
 
 
 //
@@ -63,16 +69,11 @@ public class DriveTeleOp extends LinearOpMode {
 //                bot.runSlide(0);
 //            }
 //
-            if (reader.wasJustPressed()){
-                bot.toggleClaw();
-            }
 //
 
 
             bot.driveRobotCentric(leftX, leftY, rightX);
 
-
-            bot.runClaw();
             mytelemetry.addData("Status", "power: x:" + x + " y:" + y + " z:" + z);
             mytelemetry.update();
 
