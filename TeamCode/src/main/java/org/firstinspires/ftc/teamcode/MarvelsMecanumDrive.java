@@ -16,7 +16,8 @@ public class MarvelsMecanumDrive {
     public MotorEx motor_frontRight;
     public MotorEx motor_backLeft;
     public MotorEx motor_backRight;
-    //    public MotorEx lift_motor;
+        public MotorEx lift_motor;
+        public MotorEx lift_motor2;
     public SimpleServo clawLeft;
     public SimpleServo clawRight;
 
@@ -31,9 +32,11 @@ public class MarvelsMecanumDrive {
         mecanumDrivetrain.driveRobotCentric(x,y,z);
 
     }
-//    public void runSlide (double power){
-//        lift_motor.set(power);
-//    }
+
+    public void runSlide (double power){
+        lift_motor.set(power);
+        lift_motor2.set(power);
+    }
 
 
     public void runClaw(){
@@ -46,6 +49,7 @@ public class MarvelsMecanumDrive {
             clawRight.setPosition(TeleOpConfig.CLAW_RIGHT_CLOSED);
         }
     }
+
 
 
     public void toggleClaw (){
@@ -69,12 +73,15 @@ public class MarvelsMecanumDrive {
         clawLeft = new SimpleServo(hw,"claw left",0,180);
         clawRight = new SimpleServo(hw,"claw right",0,180);
 
-//        lift_motor = new MotorEx(hw, "lift motor", TICKS_PER_REV, MAX_RPM);
+        lift_motor = new MotorEx(hw, "lift motor", TICKS_PER_REV, MAX_RPM);
+        lift_motor2 = new MotorEx(hw, "lift motor 2", TICKS_PER_REV, MAX_RPM);
 
         motor_frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motor_frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motor_backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motor_backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        lift_motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        lift_motor2.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
 
 

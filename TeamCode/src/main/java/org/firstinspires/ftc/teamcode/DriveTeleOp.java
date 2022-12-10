@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class DriveTeleOp extends LinearOpMode {
     private MarvelsMecanumDrive bot = new MarvelsMecanumDrive();
 
+
     ElapsedTime timer = new ElapsedTime();
 
     @Override
@@ -59,18 +60,19 @@ public class DriveTeleOp extends LinearOpMode {
             }
 
 
-//
-//            if (Gamepad1.getButton(GamepadKeys.Button.DPAD_DOWN)){
-//                bot.runSlide(-TeleOpConfig.SLIDE_SPEED);
-//            }
-//            else if (Gamepad1.getButton(GamepadKeys.Button.DPAD_UP)){
-//                bot.runSlide(TeleOpConfig.SLIDE_SPEED);
-//            }
-//            else{
-//                bot.runSlide(0);
-//            }
-//
-//
+
+            if (Gamepad1.getButton(GamepadKeys.Button.DPAD_DOWN)){
+                bot.runSlide(-TeleOpConfig.SLIDE_SPEED);
+
+            }
+            else if (Gamepad1.getButton(GamepadKeys.Button.DPAD_UP)){
+                bot.runSlide(TeleOpConfig.SLIDE_SPEED);
+            }
+            else{
+                bot.runSlide(0);
+            }
+
+
 
 
             bot.driveRobotCentric(leftX, leftY, rightX);
