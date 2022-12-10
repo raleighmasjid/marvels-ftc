@@ -30,7 +30,7 @@ public class DriveTeleOp extends LinearOpMode {
         //RevIMU imu = new RevIMU(hardwareMap);
         GamepadEx Gamepad1 = new GamepadEx(gamepad1);
         GamepadEx Gamepad2 = new GamepadEx(gamepad2);
-
+        ButtonReader bReader = new ButtonReader(Gamepad1, GamepadKeys.Button.B);
         //imu.init();
 
         //Initialize working variables
@@ -44,13 +44,14 @@ public class DriveTeleOp extends LinearOpMode {
 
 
         while (opModeIsActive()) {
+            bReader.readValue();
             telemetry.addData("Status", "servo: servoRight:" + bot.clawOpen);
             //Get stick inputs
             bot.runClaw();
             double leftY = Gamepad1.getLeftY();
             double leftX = Gamepad1.getLeftX();
             double rightX = Gamepad1.getRightX();
-            if (Gamepad1.getButton(GamepadKeys.Button.B)){
+            if (bReader.wasJustPressed()){
                 //mytelemetry.addData("Status", "power1: x:" + x + " y:" + y + " z:" + z);
                 bot.toggleClaw();
 
