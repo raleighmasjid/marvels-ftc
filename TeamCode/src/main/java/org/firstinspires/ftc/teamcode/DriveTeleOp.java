@@ -44,30 +44,26 @@ public class DriveTeleOp extends LinearOpMode {
 
 
         while (opModeIsActive()) {
-            telemetry.addData("Status", "servo: servoRight:" + bot.clawOpen);
+            telemetry.addData("Status", "claw servo:" + bot.claw.getPosition());
             //Get stick inputs
             double leftY = Gamepad1.getLeftY();
             double leftX = Gamepad1.getLeftX();
             double rightX = Gamepad1.getRightX();
             reader.readValue();
 
+            if (Gamepad1.getButton(GamepadKeys.Button.DPAD_DOWN)){
+                bot.runSlide(-TeleOpConfig.SLIDE_SPEED);
+            }
+            else if (Gamepad1.getButton(GamepadKeys.Button.DPAD_UP)){
+                bot.runSlide(TeleOpConfig.SLIDE_SPEED);
+            }
+            else{
+                bot.runSlide(0);
+            }
 
-//
-//            if (Gamepad1.getButton(GamepadKeys.Button.DPAD_DOWN)){
-//                bot.runSlide(-TeleOpConfig.SLIDE_SPEED);
-//            }
-//            else if (Gamepad1.getButton(GamepadKeys.Button.DPAD_UP)){
-//                bot.runSlide(TeleOpConfig.SLIDE_SPEED);
-//            }
-//            else{
-//                bot.runSlide(0);
-//            }
-//
             if (reader.wasJustPressed()){
                 bot.toggleClaw();
             }
-//
-
 
             bot.driveRobotCentric(leftX, leftY, rightX);
 

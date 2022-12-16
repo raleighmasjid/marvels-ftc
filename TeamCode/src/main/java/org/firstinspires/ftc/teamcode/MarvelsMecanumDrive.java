@@ -16,9 +16,8 @@ public class MarvelsMecanumDrive {
     public MotorEx motor_frontRight;
     public MotorEx motor_backLeft;
     public MotorEx motor_backRight;
-    //    public MotorEx lift_motor;
-    public SimpleServo clawLeft;
-    public SimpleServo clawRight;
+    public MotorEx lift_motor;
+    public SimpleServo claw;
 
     public MecanumDrive mecanumDrivetrain;
 
@@ -31,19 +30,17 @@ public class MarvelsMecanumDrive {
         mecanumDrivetrain.driveRobotCentric(x,y,z);
 
     }
-//    public void runSlide (double power){
-//        lift_motor.set(power);
-//    }
+    public void runSlide (double power){
+        lift_motor.set(power);
+    }
 
 
     public void runClaw(){
         if (clawOpen){
-            clawLeft.setPosition(TeleOpConfig.CLAW_LEFT_OPEN);
-            clawRight.setPosition(TeleOpConfig.CLAW_RIGHT_OPEN);
+            claw.setPosition(TeleOpConfig.CLAW_OPEN);
         }
         else{
-            clawLeft.setPosition(TeleOpConfig.CLAW_LEFT_CLOSED);
-            clawRight.setPosition(TeleOpConfig.CLAW_RIGHT_CLOSED);
+            claw.setPosition(TeleOpConfig.CLAW_CLOSED);
         }
     }
 
@@ -61,15 +58,14 @@ public class MarvelsMecanumDrive {
         motor_backLeft = new MotorEx(hw, "left back", TICKS_PER_REV, MAX_RPM);
         motor_backRight = new MotorEx(hw, "right back", TICKS_PER_REV, MAX_RPM);
 
-        motor_frontLeft.setInverted(true);
-        motor_backLeft.setInverted(true);
+        //motor_frontLeft.setInverted(true);
+        //motor_backLeft.setInverted(true);
         motor_frontRight.setInverted(true);
-        motor_backRight.setInverted(true);
+        //motor_backRight.setInverted(true);
 
-        clawLeft = new SimpleServo(hw,"claw left",0,180);
-        clawRight = new SimpleServo(hw,"claw right",0,180);
+        claw = new SimpleServo(hw,"claw",0,180);
 
-//        lift_motor = new MotorEx(hw, "lift motor", TICKS_PER_REV, MAX_RPM);
+        lift_motor = new MotorEx(hw, "lift motor", TICKS_PER_REV, MAX_RPM);
 
         motor_frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motor_frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
