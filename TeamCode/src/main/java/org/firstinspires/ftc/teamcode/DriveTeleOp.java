@@ -31,7 +31,7 @@ public class DriveTeleOp extends LinearOpMode {
         //RevIMU imu = new RevIMU(hardwareMap);
         GamepadEx Gamepad1 = new GamepadEx(gamepad1);
         GamepadEx Gamepad2 = new GamepadEx(gamepad2);
-        ButtonReader bReader = new ButtonReader(Gamepad1, GamepadKeys.Button.B);
+        ButtonReader bReader = new ButtonReader(Gamepad2, GamepadKeys.Button.B);
         //imu.init();
 
         //Initialize working variables
@@ -61,11 +61,11 @@ public class DriveTeleOp extends LinearOpMode {
 
 
 
-            if (Gamepad1.getButton(GamepadKeys.Button.DPAD_DOWN)){
-                bot.runSlide(-TeleOpConfig.SLIDE_SPEED);
+            if (Gamepad2.getButton(GamepadKeys.Button.DPAD_DOWN)){
+                bot.runSlide(-(TeleOpConfig.SLIDE_SPEED));
 
             }
-            else if (Gamepad1.getButton(GamepadKeys.Button.DPAD_UP)){
+            else if (Gamepad2.getButton(GamepadKeys.Button.DPAD_UP)){
                 bot.runSlide(TeleOpConfig.SLIDE_SPEED);
             }
             else{
