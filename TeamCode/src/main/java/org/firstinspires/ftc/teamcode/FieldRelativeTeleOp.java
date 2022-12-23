@@ -4,16 +4,15 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.gamepad.ButtonReader;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-//import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 // This is the main TeleOp, with full bot functionality as well as telemetry
-@TeleOp(name="TeleOp 1", group="FTC 21836")
+@TeleOp(name="Field Relative 1", group="FTC 21836")
 //@Disabled
-public class DriveTeleOp extends LinearOpMode {
+public class FieldRelativeTeleOp extends LinearOpMode {
     private GreenBot greenBot = new GreenBot();
 
 
@@ -22,24 +21,21 @@ public class DriveTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        //Initialize telemetry and dashboard
+//      Initialize telemetry and dashboard
         MultipleTelemetry mytelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         FtcDashboard dashboard = FtcDashboard.getInstance();
 
         greenBot.init(hardwareMap);
 
-        //RevIMU imu = new RevIMU(hardwareMap);
         GamepadEx Gamepad1 = new GamepadEx(gamepad1);
         GamepadEx Gamepad2 = new GamepadEx(gamepad2);
         ButtonReader bReader = new ButtonReader(Gamepad2, GamepadKeys.Button.B);
-        //imu.init();
 
-        //Initialize working variables
+//        Initialize working variables
         double x = 0;
         double y = 0;
         double z = 0;
 
-        //Wait for the driver to hit Start
         waitForStart();
 
 
@@ -61,21 +57,8 @@ public class DriveTeleOp extends LinearOpMode {
 
             greenBot.runSlide(liftPower);
 
-            // if (Gamepad2.getButton(GamepadKeys.Button.DPAD_DOWN)){
-            //     bot.runSlide(-(TeleOpConfig.SLIDE_SPEED));
-
-            // }
-            // else if (Gamepad2.getButton(GamepadKeys.Button.DPAD_UP)){
-            //     bot.runSlide(TeleOpConfig.SLIDE_SPEED);
-            // }
-            // else{
-            //     bot.runSlide(0);
-            // }
-
-
-
-
-            greenBot.driveRobotCentric(leftX, leftY, rightX);
+            greenBot.ftclibDriveFieldCentric(leftX, leftY, rightX);
+//            greenBot.ourDriveFieldCentric(leftX, leftY, rightX);
 
             mytelemetry.addData("Status", "power: x:" + x + " y:" + y + " z:" + z);
             mytelemetry.update();

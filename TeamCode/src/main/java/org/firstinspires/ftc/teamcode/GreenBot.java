@@ -16,7 +16,7 @@ public class GreenBot extends MarvelsMecanumDrive {
     public SimpleServo clawRight;
     public static final double LIFT_TICKS = 145.1;
 
-    public boolean clawOpen = true;
+    public boolean clawOpen = false;
 
     public void runSlide (double power){
         lift_motor1.set(power);
