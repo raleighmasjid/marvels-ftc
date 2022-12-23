@@ -11,10 +11,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 // This is the main TeleOp, with full bot functionality as well as telemetry
-@TeleOp(name="TeleOp testing", group="Marvels FTC")
+@TeleOp(name="TeleOp 1", group="FTC 21836")
 //@Disabled
 public class DriveTeleOp extends LinearOpMode {
-    private MarvelsMecanumDrive bot = new MarvelsMecanumDrive();
+    private GreenBot greenBot = new GreenBot();
 
 
     ElapsedTime timer = new ElapsedTime();
@@ -26,7 +26,7 @@ public class DriveTeleOp extends LinearOpMode {
         MultipleTelemetry mytelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         FtcDashboard dashboard = FtcDashboard.getInstance();
 
-        bot.init(hardwareMap);
+        greenBot.init(hardwareMap);
 
         //RevIMU imu = new RevIMU(hardwareMap);
         GamepadEx Gamepad1 = new GamepadEx(gamepad1);
@@ -38,7 +38,6 @@ public class DriveTeleOp extends LinearOpMode {
         double x = 0;
         double y = 0;
         double z = 0;
-        boolean spin = false;
 
         //Wait for the driver to hit Start
         waitForStart();
@@ -46,36 +45,37 @@ public class DriveTeleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
             bReader.readValue();
-            telemetry.addData("Status", "servo: servoRight:" + bot.clawOpen);
+            telemetry.addData("Status", "servo: servoRight:" + greenBot.clawOpen);
             //Get stick inputs
-            bot.runClaw();
+            greenBot.runClaw();
             double leftY = Gamepad1.getLeftY();
             double leftX = Gamepad1.getLeftX();
             double rightX = Gamepad1.getRightX();
-            if (bReader.wasJustPressed()){
+            double liftPower = Gamepad2.getLeftY();
+
+
+            if (bReader.wasJustPressed()) {
                 //mytelemetry.addData("Status", "power1: x:" + x + " y:" + y + " z:" + z);
-                bot.toggleClaw();
-
-                //timer.reset();
+                greenBot.toggleClaw();
             }
 
+            greenBot.runSlide(liftPower);
+
+            // if (Gamepad2.getButton(GamepadKeys.Button.DPAD_DOWN)){
+            //     bot.runSlide(-(TeleOpConfig.SLIDE_SPEED));
+
+            // }
+            // else if (Gamepad2.getButton(GamepadKeys.Button.DPAD_UP)){
+            //     bot.runSlide(TeleOpConfig.SLIDE_SPEED);
+            // }
+            // else{
+            //     bot.runSlide(0);
+            // }
 
 
-            if (Gamepad2.getButton(GamepadKeys.Button.DPAD_DOWN)){
-                bot.runSlide(-(TeleOpConfig.SLIDE_SPEED));
-
-            }
-            else if (Gamepad2.getButton(GamepadKeys.Button.DPAD_UP)){
-                bot.runSlide(TeleOpConfig.SLIDE_SPEED);
-            }
-            else{
-                bot.runSlide(0);
-            }
 
 
-
-
-            bot.driveRobotCentric(leftX, leftY, rightX);
+            greenBot.driveRobotCentric(leftX, leftY, rightX);
 
             mytelemetry.addData("Status", "power: x:" + x + " y:" + y + " z:" + z);
             mytelemetry.update();
