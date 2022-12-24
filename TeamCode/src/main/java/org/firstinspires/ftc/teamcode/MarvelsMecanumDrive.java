@@ -30,25 +30,32 @@ public class MarvelsMecanumDrive {
     public MecanumDrive mecanumDrivetrain;
 
     private static final double TICKS_PER_REV = DriveConstants.TICKS_PER_REV;
+    public double rotationOffset = 0.0;
+    public double rotYaw = 0.0;
+    private double heading = 0.0;
 
 //    ftclib robot-centric mecanum drive code:
 //    the 'true' at the end enables a squared power input for smoother acceleration
     public void driveRobotCentric (double leftX, double leftY, double rightX){
-        mecanumDrivetrain.driveRobotCentric(leftX,leftY,rightX, true);
+        mecanumDrivetrain.driveRobotCentric(leftX,leftY,rightX);
     }
 
 //    ftclib field-centric mecanum drive code:
 //    the 'true' at the end enables a squared power input for smoother acceleration
     public void ftclibDriveFieldCentric (double leftX, double leftY, double rightX){
-        double heading = getIMURotation();
-        mecanumDrivetrain.driveFieldCentric(leftX, leftY, rightX, heading, true);
+        heading = getOffsetRotation();
+        rotYaw = heading;
+        mecanumDrivetrain.driveFieldCentric(leftX, leftY, rightX, heading);
+    }
+
+    public double getIMURotation(){
+        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+    }
+    public double getOffsetRotation(){
+        return getIMURotation() - rotationOffset;
     }
     public void resetRotation(){
-        imu.resetYaw();
-
-    }
-    public double getIMURotation(){
-        return imu.getRobotOrientation(AxesReference.EXTRINSIC, AxesOrder.XYZ,AngleUnit.DEGREES).thirdAngle;
+        rotationOffset = getIMURotation();
     }
 
 
@@ -68,7 +75,7 @@ public class MarvelsMecanumDrive {
             RevHubOrientationOnRobot orientation = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.LEFT, RevHubOrientationOnRobot.UsbFacingDirection.UP);
             IMU.Parameters parameters = new IMU.Parameters(orientation);
             imu.initialize(parameters);
-            resetRotation();
+
         }
 
 

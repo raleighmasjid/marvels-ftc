@@ -47,6 +47,7 @@ public class FieldRelativeTeleOp extends LinearOpMode {
 //      the code that runs during teleop
         while (opModeIsActive()) {
             bReader.readValue();
+            aReader.readValue();
             telemetry.addData("Status", "servo: servoRight:" + greenBot.clawOpen);
             //Get stick inputs
 //            moves the claw to its closed position
@@ -65,7 +66,7 @@ public class FieldRelativeTeleOp extends LinearOpMode {
                 greenBot.toggleClaw();
             }
 
-            if (aReader.wasJustPressed()) {
+            if (aReader.isDown()) {
                 greenBot.resetRotation();
             }
 
@@ -77,7 +78,7 @@ public class FieldRelativeTeleOp extends LinearOpMode {
 //            greenBot.ourDriveFieldCentric(leftX, leftY, rightX);
 
             mytelemetry.addData("Status", "power: x:" + leftX + " y:" + leftY + " z:" + rightX);
-            mytelemetry.addData("angle", greenBot.getIMURotation());
+            mytelemetry.addData("angle", greenBot.rotYaw);
             mytelemetry.update();
 
         }
