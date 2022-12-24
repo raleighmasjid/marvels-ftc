@@ -9,6 +9,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+
 // This is the main TeleOp, with full bot functionality as well as telemetry
 @TeleOp(name="Field Relative 1", group="FTC 21836")
 //@Disabled
@@ -33,6 +37,9 @@ public class FieldRelativeTeleOp extends LinearOpMode {
         GamepadEx Gamepad2 = new GamepadEx(gamepad2);
 //        instantiates a button reader for gamepad 2's b key
         ButtonReader bReader = new ButtonReader(Gamepad2, GamepadKeys.Button.B);
+//        instantiate a button reader for gamepad 1's A key
+        ButtonReader aReader = new ButtonReader(Gamepad1, GamepadKeys.Button.A);
+
 
 
         waitForStart();
@@ -40,6 +47,7 @@ public class FieldRelativeTeleOp extends LinearOpMode {
 //      the code that runs during teleop
         while (opModeIsActive()) {
             bReader.readValue();
+            aReader.readValue();
             telemetry.addData("Status", "servo: servoRight:" + greenBot.clawOpen);
             //Get stick inputs
 //            moves the claw to its closed position
@@ -57,9 +65,11 @@ public class FieldRelativeTeleOp extends LinearOpMode {
                 //mytelemetry.addData("Status", "power1: x:" + x + " y:" + y + " z:" + z);
                 greenBot.toggleClaw();
             }
-            if (Gamepad1.getButton(GamepadKeys.Button.A)) {
+
+            if (aReader.isDown()) {
                 greenBot.resetRotation();
             }
+
 //            runs the lift using analog stick input
             greenBot.runSlide(liftPower);
 
@@ -68,6 +78,7 @@ public class FieldRelativeTeleOp extends LinearOpMode {
 //            greenBot.ourDriveFieldCentric(leftX, leftY, rightX);
 
             mytelemetry.addData("Status", "power: x:" + leftX + " y:" + leftY + " z:" + rightX);
+            mytelemetry.addData("angle", greenBot.rotYaw);
             mytelemetry.update();
 
         }
