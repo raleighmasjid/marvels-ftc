@@ -4,11 +4,11 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_RPM;
 
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.RevIMU;
-import com.arcrobotics.ftclib.hardware.SimpleServo;
+//  import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
+//  import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 
@@ -26,38 +26,18 @@ public class MarvelsMecanumDrive {
 
     private static final double TICKS_PER_REV = DriveConstants.TICKS_PER_REV;
 
+//    ftclib robot-centric mecanum drive code:
+//    the 'true' at the end enables a squared power input for smoother acceleration
     public void driveRobotCentric (double leftX, double leftY, double rightX){
         mecanumDrivetrain.driveRobotCentric(leftX,leftY,rightX, true);
     }
 
+//    ftclib field-centric mecanum drive code:
+//    the 'true' at the end enables a squared power input for smoother acceleration
     public void ftclibDriveFieldCentric (double leftX, double leftY, double rightX){
-        mecanumDrivetrain.driveFieldCentric(leftX, leftY, rightX, imu.getRotation2d().getDegrees(), true);
+        double heading = imu.getRotation2d().getDegrees();
+        mecanumDrivetrain.driveFieldCentric(leftX, leftY, rightX, heading, true);
     }
-
-//    the following is gm0 field-relative code
-//    we are using the one above from ftclib
-    public void ourDriveFieldCentric (double leftX, double leftY, double rightX){
-        // Read inverse IMU heading, as the IMU heading is CW positive
-        double botHeading = -imu.getRotation2d().getRadians();
-
-        double rotX = leftX * Math.cos(botHeading) - leftY * Math.sin(botHeading);
-        double rotY = leftX * Math.sin(botHeading) + leftY * Math.cos(botHeading);
-
-        // Denominator is the largest motor power (absolute value) or 1
-        // This ensures all the powers maintain the same ratio, but only when
-        // at least one is out of the range [-1, 1]
-        double denominator = Math.max(Math.abs(leftY) + Math.abs(leftX) + Math.abs(rightX), 1);
-        double frontL = (rotY + rotX + rightX) / denominator;
-        double backL = (rotY - rotX + rightX) / denominator;
-        double frontR = (rotY - rotX - rightX) / denominator;
-        double backR = (rotY + rotX - rightX) / denominator;
-
-        motor_frontLeft.set(frontL);
-        motor_backLeft.set(backL);
-        motor_frontRight.set(frontR);
-        motor_backRight.set(backR);
-    }
-
 
 
 

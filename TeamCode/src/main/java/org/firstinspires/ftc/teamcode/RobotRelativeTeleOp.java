@@ -26,10 +26,13 @@ public class RobotRelativeTeleOp extends LinearOpMode {
         MultipleTelemetry mytelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         FtcDashboard dashboard = FtcDashboard.getInstance();
 
+//        initializes code:
         greenBot.init(hardwareMap);
 
+//      instantiates both gamepads:
         GamepadEx Gamepad1 = new GamepadEx(gamepad1);
         GamepadEx Gamepad2 = new GamepadEx(gamepad2);
+//        instantiates a button reader for gamepad 2's b key
         ButtonReader bReader = new ButtonReader(Gamepad2, GamepadKeys.Button.B);
 
         //Initialize working variables
@@ -39,23 +42,27 @@ public class RobotRelativeTeleOp extends LinearOpMode {
 
         waitForStart();
 
-
+//      the code that runs during teleop
         while (opModeIsActive()) {
             bReader.readValue();
             telemetry.addData("Status", "servo: servoRight:" + greenBot.clawOpen);
             //Get stick inputs
             greenBot.runClaw();
+//            gamepad 1's left analog stick:
             double leftY = Gamepad1.getLeftY();
             double leftX = Gamepad1.getLeftX();
+//            gamepad 1's right analog stick:
             double rightX = Gamepad1.getRightX();
+//            gamepad 2's left analog stick
             double liftPower = Gamepad2.getLeftY();
 
-
+//          runs when the button reader for the b key detects it has been released
             if (bReader.wasJustPressed()) {
                 //mytelemetry.addData("Status", "power1: x:" + x + " y:" + y + " z:" + z);
                 greenBot.toggleClaw();
             }
 
+//            runs the lift using analog stick input
             greenBot.runSlide(liftPower);
 
             // if (Gamepad2.getButton(GamepadKeys.Button.DPAD_DOWN)){
@@ -69,9 +76,7 @@ public class RobotRelativeTeleOp extends LinearOpMode {
             //     bot.runSlide(0);
             // }
 
-
-
-
+//          runs robot-centric driving using analog stick inputs
             greenBot.driveRobotCentric(leftX, leftY, rightX);
 
             mytelemetry.addData("Status", "power: x:" + x + " y:" + y + " z:" + z);
