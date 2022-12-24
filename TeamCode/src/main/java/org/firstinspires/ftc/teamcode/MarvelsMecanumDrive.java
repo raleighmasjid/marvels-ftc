@@ -30,7 +30,7 @@ public class MarvelsMecanumDrive {
     public MecanumDrive mecanumDrivetrain;
 
     private static final double TICKS_PER_REV = DriveConstants.TICKS_PER_REV;
-    public double rotationOffset = 0.0;
+
 //    ftclib robot-centric mecanum drive code:
 //    the 'true' at the end enables a squared power input for smoother acceleration
     public void driveRobotCentric (double leftX, double leftY, double rightX){
@@ -40,18 +40,17 @@ public class MarvelsMecanumDrive {
 //    ftclib field-centric mecanum drive code:
 //    the 'true' at the end enables a squared power input for smoother acceleration
     public void ftclibDriveFieldCentric (double leftX, double leftY, double rightX){
-        double heading = getOffsetRotation();
+        double heading = getIMURotation();
         mecanumDrivetrain.driveFieldCentric(leftX, leftY, rightX, heading, true);
     }
     public void resetRotation(){
-        rotationOffset = getIMURotation();
+        imu.resetYaw();
+
     }
     public double getIMURotation(){
         return imu.getRobotOrientation(AxesReference.EXTRINSIC, AxesOrder.XYZ,AngleUnit.DEGREES).thirdAngle;
     }
-    public double getOffsetRotation(){
-        return getIMURotation() - rotationOffset;
-    }
+
 
 
     public void init(HardwareMap hw, boolean isTeleop) {

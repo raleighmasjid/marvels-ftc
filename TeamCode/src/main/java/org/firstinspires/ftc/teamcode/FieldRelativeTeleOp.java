@@ -37,6 +37,9 @@ public class FieldRelativeTeleOp extends LinearOpMode {
         GamepadEx Gamepad2 = new GamepadEx(gamepad2);
 //        instantiates a button reader for gamepad 2's b key
         ButtonReader bReader = new ButtonReader(Gamepad2, GamepadKeys.Button.B);
+//        instantiate a button reader for gamepad 1's A key
+        ButtonReader aReader = new ButtonReader(Gamepad1, GamepadKeys.Button.A);
+
 
 
         waitForStart();
@@ -61,9 +64,11 @@ public class FieldRelativeTeleOp extends LinearOpMode {
                 //mytelemetry.addData("Status", "power1: x:" + x + " y:" + y + " z:" + z);
                 greenBot.toggleClaw();
             }
-            if (Gamepad1.getButton(GamepadKeys.Button.A)) {
+
+            if (aReader.wasJustPressed()) {
                 greenBot.resetRotation();
             }
+
 //            runs the lift using analog stick input
             greenBot.runSlide(liftPower);
 
