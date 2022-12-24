@@ -7,9 +7,14 @@ import com.arcrobotics.ftclib.hardware.RevIMU;
 //  import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 //  import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 
 
@@ -19,7 +24,7 @@ public class MarvelsMecanumDrive {
     public MotorEx motor_frontRight;
     public MotorEx motor_backLeft;
     public MotorEx motor_backRight;
-    public RevIMU imu;
+    public IMU imu;
 
 
     public MecanumDrive mecanumDrivetrain;
@@ -35,11 +40,17 @@ public class MarvelsMecanumDrive {
 //    ftclib field-centric mecanum drive code:
 //    the 'true' at the end enables a squared power input for smoother acceleration
     public void ftclibDriveFieldCentric (double leftX, double leftY, double rightX){
-        double heading = imu.getRotation2d().getDegrees()-rotationOffset;
+        double heading = getOffsetRotation();
         mecanumDrivetrain.driveFieldCentric(leftX, leftY, rightX, heading, true);
     }
     public void resetRotation(){
-        rotationOffset = imu.getRotation2d().getDegrees();
+        rotationOffset = getIMURotation();
+    }
+    public double getIMURotation(){
+        return imu.getRobotOrientation(AxesReference.EXTRINSIC, AxesOrder.XYZ,AngleUnit.DEGREES).thirdAngle;
+    }
+    public double getOffsetRotation(){
+        return getIMURotation() - rotationOffset;
     }
 
 
@@ -54,8 +65,11 @@ public class MarvelsMecanumDrive {
         motor_backRight = new MotorEx(hw, "right back", TICKS_PER_REV, MAX_RPM);
 
         if (isTeleop) {
-            imu = new RevIMU(hw);
-            imu.init();
+            imu = hw.get(IMU.class, "imu");;
+            RevHubOrientationOnRobot orientation = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.LEFT, RevHubOrientationOnRobot.UsbFacingDirection.UP);
+            IMU.Parameters parameters = new IMU.Parameters(orientation);
+            imu.initialize(parameters);
+            resetRotation();
         }
 
 

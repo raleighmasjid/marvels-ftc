@@ -9,6 +9,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+
 // This is the main TeleOp, with full bot functionality as well as telemetry
 @TeleOp(name="Field Relative 1", group="FTC 21836")
 //@Disabled
@@ -68,6 +72,7 @@ public class FieldRelativeTeleOp extends LinearOpMode {
 //            greenBot.ourDriveFieldCentric(leftX, leftY, rightX);
 
             mytelemetry.addData("Status", "power: x:" + leftX + " y:" + leftY + " z:" + rightX);
+            mytelemetry.addData("angle", greenBot.getIMURotation());
             mytelemetry.update();
 
         }
