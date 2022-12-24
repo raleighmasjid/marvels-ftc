@@ -18,7 +18,7 @@ public class GreenBot extends MarvelsMecanumDrive {
 //    lift motor encoder resolution (ticks):
     public static final double LIFT_TICKS = 145.1;
 
-//    states that the claw should be closed upon start (for preloaded cones)
+//    states that the claw should be closed upon start (to grasp preloaded cone)
     public boolean clawOpen = false;
 
 //  squares input but keeps +/- sign
@@ -54,8 +54,8 @@ public void toggleClaw (){
 
 
 //  the following is the code that runs during initialization
-    public void init(HardwareMap hw){
-        super.init(hw);
+    public void init(HardwareMap hw, boolean isTeleop){
+        super.init(hw, isTeleop);
 
         clawLeft = new SimpleServo(hw,"claw left",0,180);
         clawRight = new SimpleServo(hw,"claw right",0,180);

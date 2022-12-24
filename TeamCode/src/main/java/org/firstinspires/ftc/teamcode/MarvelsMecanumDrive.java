@@ -41,7 +41,7 @@ public class MarvelsMecanumDrive {
 
 
 
-    public void init(HardwareMap hw) {
+    public void init(HardwareMap hw, boolean isTeleop) {
         //cache the HardwareMap
         this.hw = hw;
 
@@ -50,8 +50,12 @@ public class MarvelsMecanumDrive {
         motor_frontRight = new MotorEx(hw, "right front", TICKS_PER_REV, MAX_RPM);
         motor_backLeft = new MotorEx(hw, "left back", TICKS_PER_REV, MAX_RPM);
         motor_backRight = new MotorEx(hw, "right back", TICKS_PER_REV, MAX_RPM);
-        imu = new RevIMU(hw);
-        imu.init();
+
+        if (isTeleop) {
+            imu = new RevIMU(hw);
+            imu.init();
+        }
+
 
         motor_frontLeft.setInverted(true);
         motor_backLeft.setInverted(true);

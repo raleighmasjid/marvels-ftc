@@ -26,7 +26,7 @@ public class FieldRelativeTeleOp extends LinearOpMode {
         FtcDashboard dashboard = FtcDashboard.getInstance();
 
 //        initializes code:
-        greenBot.init(hardwareMap);
+        greenBot.init(hardwareMap, true);
 
 //      instantiates both gamepads:
         GamepadEx Gamepad1 = new GamepadEx(gamepad1);
