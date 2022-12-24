@@ -35,10 +35,6 @@ public class RobotRelativeTeleOp extends LinearOpMode {
 //        instantiates a button reader for gamepad 2's b key
         ButtonReader bReader = new ButtonReader(Gamepad2, GamepadKeys.Button.B);
 
-        //Initialize working variables
-        double x = 0;
-        double y = 0;
-        double z = 0;
 
         waitForStart();
 
@@ -79,7 +75,7 @@ public class RobotRelativeTeleOp extends LinearOpMode {
 //          runs robot-centric driving using analog stick inputs
             greenBot.driveRobotCentric(leftX, leftY, rightX);
 
-            mytelemetry.addData("Status", "power: x:" + x + " y:" + y + " z:" + z);
+            mytelemetry.addData("Status", "power: x:" + leftX + " y:" + leftY + " z:" + rightX);
             mytelemetry.update();
 
         }
