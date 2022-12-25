@@ -3,13 +3,13 @@ package org.firstinspires.ftc.teamcode;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_RPM;
 
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
-import com.arcrobotics.ftclib.hardware.RevIMU;
-//  import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-//  import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 
 
@@ -19,12 +19,41 @@ public class MarvelsMecanumDrive {
     public MotorEx motor_frontRight;
     public MotorEx motor_backLeft;
     public MotorEx motor_backRight;
-    public RevIMU imu;
+    public IMU imu;
 
     public MecanumDrive mecanumDrivetrain;
 
     private static final double TICKS_PER_REV = DriveConstants.TICKS_PER_REV;
-    
+
+    public double rotationOffset = 0.0;
+    public double rotYaw = 0.0;
+    private double heading = 0.0;
+
+    // ftclib robot-centric mecanum drive code:
+    // the 'true' at the end enables a squared power input for smoother acceleration
+    public void driveRobotCentric (double leftX, double leftY, double rightX){
+        mecanumDrivetrain.driveRobotCentric(leftX,leftY,rightX);
+    }
+
+    // ftclib field-centric mecanum drive code:
+    // the 'true' at the end enables a squared power input for smoother acceleration
+    public void driveFieldCentric (double leftX, double leftY, double rightX){
+        heading = getOffsetRotation();
+        rotYaw = heading;
+        mecanumDrivetrain.driveFieldCentric(leftX, leftY, rightX, heading);
+    }
+
+    public double getIMURotation(){
+        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+    }
+    public double getOffsetRotation(){
+        return getIMURotation() - rotationOffset;
+    }
+    public void resetRotation(){
+        rotationOffset = getIMURotation();
+    }
+
+
     public void init(HardwareMap hw, boolean isTeleop) {
         // cache the HardwareMap
         this.hw = hw;
@@ -36,8 +65,14 @@ public class MarvelsMecanumDrive {
         motor_backRight = new MotorEx(hw, "right back", TICKS_PER_REV, MAX_RPM);
 
         if (isTeleop) {
-            imu = new RevIMU(hw);
-            imu.init();
+            imu = hw.get(IMU.class, "imu");
+            RevHubOrientationOnRobot orientation = new RevHubOrientationOnRobot(
+                    RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                    RevHubOrientationOnRobot.UsbFacingDirection.UP
+            );
+            IMU.Parameters parameters = new IMU.Parameters(orientation);
+            imu.initialize(parameters);
+
         }
 
         motor_frontLeft.setInverted(true);
@@ -50,22 +85,9 @@ public class MarvelsMecanumDrive {
         motor_backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motor_backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
-        //Initialize the FTCLib drive-base
+        // Initialize the FTCLib drive-base
         mecanumDrivetrain = new MecanumDrive(motor_frontLeft, motor_frontRight,
                 motor_backLeft, motor_backRight);
-    }
-
-    // ftclib robot-centric mecanum drive code:
-    // the 'true' at the end enables a squared power input for smoother acceleration
-    public void driveRobotCentric (double leftX, double leftY, double rightX){
-        mecanumDrivetrain.driveRobotCentric(leftX,leftY,rightX, true);
-    }
-
-    // ftclib field-centric mecanum drive code:
-    // the 'true' at the end enables a squared power input for smoother acceleration
-    public void ftclibDriveFieldCentric (double leftX, double leftY, double rightX){
-        double heading = imu.getRotation2d().getDegrees();
-        mecanumDrivetrain.driveFieldCentric(leftX, leftY, rightX, heading, true);
     }
 }
 

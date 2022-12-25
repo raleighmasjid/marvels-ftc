@@ -34,6 +34,7 @@ public class GreenBot extends MarvelsMecanumDrive {
         lift_motor1.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         lift_motor2.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
+
     }
     //  lift motor encoder resolution (ticks):
     public static final double LIFT_TICKS = 145.1;
