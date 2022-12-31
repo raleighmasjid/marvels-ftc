@@ -3,28 +3,40 @@ package com.example.meepmeeptesting;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
+import com.noahbres.meepmeep.core.colorscheme.ColorScheme;
+import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeBlueDark;
+import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeBlueLight;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
+import com.noahbres.meepmeep.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 
 public class MeepMeepTesting {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(900);
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
+                .setDimensions(16.4, 15.5)
+                .setStartPose(new Pose2d(35, -60, Math.toRadians(90)))
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(65, 65, Math.toRadians(180), Math.toRadians(180), 15)
-                .followTrajectorySequence(drive ->
+                .followTrajectorySequence(drive->
                         drive.trajectorySequenceBuilder(new Pose2d(35, -60, Math.toRadians(90)))
-                                .splineTo(new Vector2d(35, -35), Math.toRadians(90))
+                                .splineTo(new Vector2d(35, -25), Math.toRadians(90))
                                 .splineTo(new Vector2d(28, -7), Math.toRadians(120))
                                 .waitSeconds(0.1)
-//                                .splineToConstantHeading(new Vector2d(36, -16), Math.toRadians(-30))
+                                .setReversed(true)
+                                .splineToSplineHeading(new Pose2d(45, -14, Math.toRadians(90)), Math.toRadians(0))
+                                .splineToSplineHeading(new Pose2d(60, -12, Math.toRadians(0)), Math.toRadians(0))
+                                .waitSeconds(0.1)
+                                .splineToSplineHeading(new Pose2d(45, -14, Math.toRadians(90)), Math.toRadians(180))
+                                .splineToSplineHeading(new Pose2d(28, -7, Math.toRadians(120)), Math.toRadians(-250))
+                                .waitSeconds(0.1)
                                 .build()
                 );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_OFFICIAL)
-                .setDarkMode(true)
-                .setBackgroundAlpha(0.95f)
+                .setDarkMode(false)
+                .setBackgroundAlpha(1.0f)
                 .addEntity(myBot)
                 .start();
     }

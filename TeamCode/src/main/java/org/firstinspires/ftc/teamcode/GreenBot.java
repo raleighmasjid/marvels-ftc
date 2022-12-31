@@ -50,11 +50,11 @@ public class GreenBot extends MarvelsMecanumDrive {
     // takes an analog stick input (-1 to 1)
     public void runSlide (double power) {
         // squares input but keeps +/- sign
-        double squaredPower = signSquare(power);
+        power = signSquare(power);
         // sets both lift motor power to squared value
         // this allows for smoother acceleration
-        lift_motor1.set(squaredPower);
-        lift_motor2.set(squaredPower);
+        lift_motor1.set(power);
+        lift_motor2.set(power);
     }
 
     // the following code inverts the boolean that states if the claw is open or not
