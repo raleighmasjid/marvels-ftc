@@ -39,7 +39,7 @@ public class GreenBot extends MarvelsMecanumDrive {
     //  lift motor encoder resolution (ticks):
     public static final double LIFT_TICKS = 145.1;
 
-    // states that the claw should be closed upon start (to grasp preloaded cone)
+    // states that the claw should be closed upon first toggle (to grasp preloaded cone)
     public boolean clawOpen = false;
 
     // squares input but keeps +/- sign
@@ -60,6 +60,11 @@ public class GreenBot extends MarvelsMecanumDrive {
     // the following code inverts the boolean that states if the claw is open or not
     public void toggleClaw (){
         clawOpen = !clawOpen;
+    }
+
+    public void liftClaw () {
+        toggleClaw();
+        // insert code to raise lift to ground-junction-scoring height
     }
 
     // the following code switches the open/closed state of the claw based on the boolean above

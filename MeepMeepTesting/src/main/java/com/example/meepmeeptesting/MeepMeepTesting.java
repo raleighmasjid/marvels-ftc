@@ -14,30 +14,40 @@ public class MeepMeepTesting {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(900);
 
-        RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
+        RoadRunnerBotEntity bot1 = new DefaultBotBuilder(meepMeep)
                 .setDimensions(16.4, 15.5)
-                .setStartPose(new Pose2d(35, -60, Math.toRadians(90)))
+                .setStartPose(new Pose2d(35, -62.5, Math.toRadians(90)))
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(65, 65, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive->
-                        drive.trajectorySequenceBuilder(new Pose2d(35, -60, Math.toRadians(90)))
+                        drive.trajectorySequenceBuilder(new Pose2d(35, -62.5, Math.toRadians(90)))
                                 .splineTo(new Vector2d(35, -25), Math.toRadians(90))
-                                .splineTo(new Vector2d(28, -7), Math.toRadians(120))
-                                .waitSeconds(0.1)
-                                .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(45, -14, Math.toRadians(90)), Math.toRadians(0))
-                                .splineToSplineHeading(new Pose2d(60, -12, Math.toRadians(0)), Math.toRadians(0))
-                                .waitSeconds(0.1)
-                                .splineToSplineHeading(new Pose2d(45, -14, Math.toRadians(90)), Math.toRadians(180))
-                                .splineToSplineHeading(new Pose2d(28, -7, Math.toRadians(120)), Math.toRadians(-250))
-                                .waitSeconds(0.1)
+                                .splineTo(new Vector2d(27, -6), Math.toRadians(120))
+                                .waitSeconds(0.1) //dropClaw
                                 .build()
+
                 );
+//        RoadRunnerBotEntity bot2 = new DefaultBotBuilder(meepMeep)
+//                .setDimensions(16.6, 15.6)
+//                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+//                .setConstraints(65, 65, Math.toRadians(180), Math.toRadians(180), 15)
+//                .followTrajectorySequence(drive->
+//                        drive.trajectorySequenceBuilder(new Pose2d(27, -6, Math.toRadians(120)))
+//                                .setReversed(true)
+//                                .splineToSplineHeading(new Pose2d(45, -14, Math.toRadians(90)), Math.toRadians(0))
+//                                .splineToSplineHeading(new Pose2d(60, -12, Math.toRadians(0)), Math.toRadians(0))
+//                                .waitSeconds(0.1) // liftClaw
+//                                .splineToSplineHeading(new Pose2d(45, -14, Math.toRadians(90)), Math.toRadians(180))
+//                                .splineToSplineHeading(new Pose2d(27, -6, Math.toRadians(120)), Math.toRadians(-250))
+//                                .waitSeconds(0.1) // dropClaw
+//                                .build()
+//                );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_OFFICIAL)
                 .setDarkMode(false)
                 .setBackgroundAlpha(1.0f)
-                .addEntity(myBot)
+                .addEntity(bot1)
+//                .addEntity(bot2)
                 .start();
     }
 }

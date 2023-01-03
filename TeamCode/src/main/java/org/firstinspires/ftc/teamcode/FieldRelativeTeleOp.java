@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 @TeleOp(name="Field Relative 1", group="FTC 21836")
 //@Disabled
 public class FieldRelativeTeleOp extends LinearOpMode {
-    private GreenBot greenBot = new GreenBot();
+    GreenBot greenBot = new GreenBot();
 
 
     ElapsedTime timer = new ElapsedTime();
@@ -29,7 +29,7 @@ public class FieldRelativeTeleOp extends LinearOpMode {
         MultipleTelemetry mytelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         FtcDashboard dashboard = FtcDashboard.getInstance();
 
-//        initializes code:
+//      initializes code:
         greenBot.init(hardwareMap, true);
 
 //      instantiates both gamepads:
