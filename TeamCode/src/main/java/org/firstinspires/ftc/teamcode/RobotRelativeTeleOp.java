@@ -59,7 +59,7 @@ public class RobotRelativeTeleOp extends LinearOpMode {
             }
 
 //            runs the lift using analog stick input
-            greenBot.runSlide(liftPower);
+            greenBot.runLift(liftPower);
 
             // if (Gamepad2.getButton(GamepadKeys.Button.DPAD_DOWN)){
             //     bot.runSlide(-(TeleOpConfig.SLIDE_SPEED));

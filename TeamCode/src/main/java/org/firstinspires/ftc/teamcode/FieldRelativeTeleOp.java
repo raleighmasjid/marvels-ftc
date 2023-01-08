@@ -9,10 +9,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-
 // This is the main TeleOp, with full bot functionality as well as telemetry
 @TeleOp(name="Field Relative 1", group="FTC 21836")
 //@Disabled
@@ -35,10 +31,10 @@ public class FieldRelativeTeleOp extends LinearOpMode {
 //      instantiates both gamepads:
         GamepadEx Gamepad1 = new GamepadEx(gamepad1);
         GamepadEx Gamepad2 = new GamepadEx(gamepad2);
-//        instantiates a button reader for gamepad 2's b key
-        ButtonReader bReader = new ButtonReader(Gamepad2, GamepadKeys.Button.B);
 //        instantiate a button reader for gamepad 1's A key
-        ButtonReader aReader = new ButtonReader(Gamepad1, GamepadKeys.Button.A);
+        ButtonReader control1A = new ButtonReader(Gamepad1, GamepadKeys.Button.A);
+//        instantiates a button reader for gamepad 2's b key
+        ButtonReader control2B = new ButtonReader(Gamepad2, GamepadKeys.Button.B);
 
 
 
@@ -46,11 +42,11 @@ public class FieldRelativeTeleOp extends LinearOpMode {
 
 //      the code that runs during teleop
         while (opModeIsActive()) {
-            bReader.readValue();
-            aReader.readValue();
+            control2B.readValue();
+            control1A.readValue();
             telemetry.addData("Status", "servo: servoRight:" + greenBot.clawOpen);
             //Get stick inputs
-//            moves the claw to its closed position
+//            constantly moves the claw to its position dictated by "clawOpen"
             greenBot.runClaw();
 //            gamepad 1's left analog stick:
             double leftY = Gamepad1.getLeftY();
@@ -61,17 +57,18 @@ public class FieldRelativeTeleOp extends LinearOpMode {
             double liftPower = Gamepad2.getLeftY();
 
 //          runs when the button reader for the b key detects it has been released
-            if (bReader.wasJustPressed()) {
+            if (control2B.wasJustPressed()) {
                 //mytelemetry.addData("Status", "power1: x:" + x + " y:" + y + " z:" + z);
                 greenBot.toggleClaw();
             }
 
-            if (aReader.isDown()) {
+            if (control1A.isDown()) {
                 greenBot.resetRotation();
             }
 
 //            runs the lift using analog stick input
-            greenBot.runSlide(liftPower);
+            greenBot.runLift(liftPower);
+            greenBot.runLiftPos();
 
 //          runs field-centric driving using analog stick inputs
             greenBot.driveFieldCentric(leftX, leftY, rightX);
