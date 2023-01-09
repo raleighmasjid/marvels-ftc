@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  */
 
 public class PowerplayScorer {
-    // (i think) informs the control hub that the following motors exist:
+
     public MotorEx lift_motor1;
     public MotorEx lift_motor2;
 //    public MotorEx lift_motor3;
@@ -100,7 +100,7 @@ public class PowerplayScorer {
     public void runLiftPos() {
         if (!liftController.atSetPoint()) {
             double velocity = liftController.calculate(
-                    lift_motor1.getCurrentPosition()
+                lift_motor1.getCurrentPosition()
             );
             runLift(velocity);
         }
@@ -123,7 +123,6 @@ public class PowerplayScorer {
     }
 
     // the following code switches the open/closed state of the claw based on the boolean above
-    // it is looped infinitely--think of the forever>if() loop in scratch
     public void runClaw() {
         if (clawOpen){
             clawLeft.setPosition(TeleOpConfig.CLAW_LEFT_OPEN);

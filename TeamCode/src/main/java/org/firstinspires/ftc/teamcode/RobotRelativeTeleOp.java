@@ -29,7 +29,7 @@ public class RobotRelativeTeleOp extends LinearOpMode {
 
 //        initializes code:
         scorer.init(hardwareMap);
-        drivetrain.init(hardwareMap, true);
+        drivetrain.init(hardwareMap);
 
 //      instantiates both gamepads:
         GamepadEx Gamepad1 = new GamepadEx(gamepad1);
