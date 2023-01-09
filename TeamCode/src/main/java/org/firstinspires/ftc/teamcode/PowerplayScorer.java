@@ -68,31 +68,31 @@ public class PowerplayScorer {
     public void setLiftPos(HEIGHT_VAL height) {
         switch (height){
             case ONE:
-                liftController.setSetPoint(TeleOpConfig.ONE_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.HEIGHT_ONE);
                 break;
             case TWO:
-                liftController.setSetPoint(TeleOpConfig.TWO_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.HEIGHT_TWO);
                 break;
             case THREE:
-                liftController.setSetPoint(TeleOpConfig.THREE_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.HEIGHT_THREE);
                 break;
             case FOUR:
-                liftController.setSetPoint(TeleOpConfig.FOUR_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.HEIGHT_FOUR);
                 break;
             case FIVE:
-                liftController.setSetPoint(TeleOpConfig.FIVE_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.HEIGHT_FIVE);
                 break;
             case GROUND:
-                liftController.setSetPoint(TeleOpConfig.GROUND_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.HEIGHT_GROUND);
                 break;
             case LOW:
-                liftController.setSetPoint(TeleOpConfig.LOW_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.HEIGHT_LOW);
                 break;
             case MED:
-                liftController.setSetPoint(TeleOpConfig.MEDIUM_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.HEIGHT_MEDIUM);
                 break;
             case TALL:
-                liftController.setSetPoint(TeleOpConfig.TALL_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.HEIGHT_TALL);
                 break;
         }
     }
