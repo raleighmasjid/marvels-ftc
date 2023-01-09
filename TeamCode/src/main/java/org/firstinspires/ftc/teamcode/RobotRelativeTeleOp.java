@@ -14,7 +14,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="Robot Relative 1", group="FTC 21836")
 //@Disabled
 public class RobotRelativeTeleOp extends LinearOpMode {
-    private GreenBot greenBot = new GreenBot();
+    private PowerplayScorer scorer = new PowerplayScorer();
+    MarvelsMecanumDrive drivetrain = new MarvelsMecanumDrive();
 
 
     ElapsedTime timer = new ElapsedTime();
@@ -27,7 +28,8 @@ public class RobotRelativeTeleOp extends LinearOpMode {
         FtcDashboard dashboard = FtcDashboard.getInstance();
 
 //        initializes code:
-        greenBot.init(hardwareMap, true);
+        scorer.init(hardwareMap);
+        drivetrain.init(hardwareMap, true);
 
 //      instantiates both gamepads:
         GamepadEx Gamepad1 = new GamepadEx(gamepad1);
@@ -41,9 +43,9 @@ public class RobotRelativeTeleOp extends LinearOpMode {
 //      the code that runs during teleop
         while (opModeIsActive()) {
             bReader.readValue();
-            telemetry.addData("Status", "servo: servoRight:" + greenBot.clawOpen);
+            telemetry.addData("Status", "servo: servoRight:" + scorer.clawOpen);
             //Get stick inputs
-            greenBot.runClaw();
+            scorer.runClaw();
 //            gamepad 1's left analog stick:
             double leftY = Gamepad1.getLeftY();
             double leftX = Gamepad1.getLeftX();
@@ -55,11 +57,11 @@ public class RobotRelativeTeleOp extends LinearOpMode {
 //          runs when the button reader for the b key detects it has been released
             if (bReader.wasJustPressed()) {
                 //mytelemetry.addData("Status", "power1: x:" + x + " y:" + y + " z:" + z);
-                greenBot.toggleClaw();
+                scorer.toggleClaw();
             }
 
 //            runs the lift using analog stick input
-            greenBot.runLift(liftPower);
+            scorer.runLift(liftPower);
 
             // if (Gamepad2.getButton(GamepadKeys.Button.DPAD_DOWN)){
             //     bot.runSlide(-(TeleOpConfig.SLIDE_SPEED));
@@ -73,7 +75,7 @@ public class RobotRelativeTeleOp extends LinearOpMode {
             // }
 
 //          runs robot-centric driving using analog stick inputs
-            greenBot.driveRobotCentric(leftX, leftY, rightX);
+            drivetrain.driveRobotCentric(leftX, leftY, rightX);
 
             mytelemetry.addData("Status", "power: x:" + leftX + " y:" + leftY + " z:" + rightX);
             mytelemetry.update();

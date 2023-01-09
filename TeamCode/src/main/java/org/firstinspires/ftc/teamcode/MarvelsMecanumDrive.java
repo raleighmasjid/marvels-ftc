@@ -86,8 +86,12 @@ public class MarvelsMecanumDrive {
         motor_backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
         // Initialize the FTCLib drive-base
-        mecanumDrivetrain = new MecanumDrive(motor_frontLeft, motor_frontRight,
-                motor_backLeft, motor_backRight);
+        mecanumDrivetrain = new MecanumDrive(
+                motor_frontLeft,
+                motor_frontRight,
+                motor_backLeft,
+                motor_backRight
+        );
     }
 }
 

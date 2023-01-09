@@ -13,8 +13,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="Field Relative 1", group="FTC 21836")
 //@Disabled
 public class FieldRelativeTeleOp extends LinearOpMode {
-    GreenBot greenBot = new GreenBot();
-
+    PowerplayScorer scorer = new PowerplayScorer();
+    MarvelsMecanumDrive drivetrain = new MarvelsMecanumDrive();
 
     ElapsedTime timer = new ElapsedTime();
 
@@ -26,7 +26,8 @@ public class FieldRelativeTeleOp extends LinearOpMode {
         FtcDashboard dashboard = FtcDashboard.getInstance();
 
 //      initializes code:
-        greenBot.init(hardwareMap, true);
+        scorer.init(hardwareMap);
+        drivetrain.init(hardwareMap, true);
 
 //      instantiates both gamepads:
         GamepadEx Gamepad1 = new GamepadEx(gamepad1);
@@ -34,20 +35,21 @@ public class FieldRelativeTeleOp extends LinearOpMode {
 //        instantiate a button reader for gamepad 1's A key
         ButtonReader control1A = new ButtonReader(Gamepad1, GamepadKeys.Button.A);
 //        instantiates a button reader for gamepad 2's b key
-        ButtonReader control2B = new ButtonReader(Gamepad2, GamepadKeys.Button.B);
-
+        ButtonReader control2X = new ButtonReader(Gamepad2, GamepadKeys.Button.X);
+        ButtonReader control2Up = new ButtonReader(Gamepad2, GamepadKeys.Button.DPAD_UP);
 
 
         waitForStart();
 
-//      the code that runs during teleop
+//      teleop control loop
         while (opModeIsActive()) {
-            control2B.readValue();
             control1A.readValue();
-            telemetry.addData("Status", "servo: servoRight:" + greenBot.clawOpen);
+            control2X.readValue();
+            control2Up.readValue();
+            telemetry.addData("Status", "servo: servoRight:" + scorer.clawOpen);
             //Get stick inputs
 //            constantly moves the claw to its position dictated by "clawOpen"
-            greenBot.runClaw();
+            scorer.runClaw();
 //            gamepad 1's left analog stick:
             double leftY = Gamepad1.getLeftY();
             double leftX = Gamepad1.getLeftX();
@@ -57,26 +59,30 @@ public class FieldRelativeTeleOp extends LinearOpMode {
             double liftPower = Gamepad2.getLeftY();
 
 //          runs when the button reader for the b key detects it has been released
-            if (control2B.wasJustPressed()) {
+            if (control2X.wasJustPressed()) {
                 //mytelemetry.addData("Status", "power1: x:" + x + " y:" + y + " z:" + z);
-                greenBot.toggleClaw();
+                scorer.toggleClaw();
+            }
+
+            if (control2Up.wasJustPressed()) {
+                scorer.setLiftPos(PowerplayScorer.HEIGHT_VAL.TALL);
             }
 
             if (control1A.isDown()) {
-                greenBot.resetRotation();
+                drivetrain.resetRotation();
             }
 
+
 //            runs the lift using analog stick input
-            greenBot.runLift(liftPower);
-            greenBot.runLiftPos();
+            scorer.runLift(liftPower);
+//            greenBot.runLiftPos();
 
 //          runs field-centric driving using analog stick inputs
-            greenBot.driveFieldCentric(leftX, leftY, rightX);
+            drivetrain.driveFieldCentric(leftX, leftY, rightX);
 
             mytelemetry.addData("Status", "power: x:" + leftX + " y:" + leftY + " z:" + rightX);
-            mytelemetry.addData("angle", greenBot.rotYaw);
+            mytelemetry.addData("angle", drivetrain.rotYaw);
             mytelemetry.update();
-
         }
     }
 }

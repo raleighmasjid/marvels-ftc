@@ -15,18 +15,17 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * @since 2022/12/24
  */
 
-public class GreenBot extends MarvelsMecanumDrive {
+public class PowerplayScorer {
     // (i think) informs the control hub that the following motors exist:
     public MotorEx lift_motor1;
     public MotorEx lift_motor2;
 //    public MotorEx lift_motor3;
     public SimpleServo clawLeft;
     public SimpleServo clawRight;
-    public PIDFController liftControl;
+    public PIDFController liftController;
 
     // the following is the code that runs during initialization
-    public void init(HardwareMap hw, boolean isTeleop) {
-        super.init(hw, isTeleop);
+    public void init(HardwareMap hw) {
 
         clawLeft = new SimpleServo(hw,"claw left",0,180);
         clawRight = new SimpleServo(hw,"claw right",0,180);
@@ -35,7 +34,7 @@ public class GreenBot extends MarvelsMecanumDrive {
         lift_motor2 = new MotorEx(hw, "lift motor 2", LIFT_TICKS, MAX_RPM);
 //        lift_motor3 = new MotorEx(hw, "lift motor 3", LIFT_TICKS, MAX_RPM);
 
-        liftControl = new PIDFController(
+        liftController = new PIDFController(
                 TeleOpConfig.LIFT_P,
                 TeleOpConfig.LIFT_I,
                 TeleOpConfig.LIFT_D,
@@ -54,8 +53,8 @@ public class GreenBot extends MarvelsMecanumDrive {
     //  lift motor encoder resolution (ticks):
     public static final double LIFT_TICKS = 145.1;
 
-    // states that the claw should be closed upon teleop control loop start (to grasp preloaded cone)
-    public boolean clawOpen = false;
+    // states that the claw should be open upon teleop control loop start
+    public boolean clawOpen = true;
 
     // squares input but keeps +/- sign
     public double signSquare (double x) {
@@ -69,38 +68,40 @@ public class GreenBot extends MarvelsMecanumDrive {
     public void setLiftPos(HEIGHT_VAL height) {
         switch (height){
             case ONE:
-                liftControl.setSetPoint(TeleOpConfig.ONE_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.ONE_HEIGHT);
                 break;
             case TWO:
-                liftControl.setSetPoint(TeleOpConfig.TWO_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.TWO_HEIGHT);
                 break;
             case THREE:
-                liftControl.setSetPoint(TeleOpConfig.THREE_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.THREE_HEIGHT);
                 break;
             case FOUR:
-                liftControl.setSetPoint(TeleOpConfig.FOUR_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.FOUR_HEIGHT);
                 break;
             case FIVE:
-                liftControl.setSetPoint(TeleOpConfig.FIVE_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.FIVE_HEIGHT);
                 break;
             case GROUND:
-                liftControl.setSetPoint(TeleOpConfig.GROUND_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.GROUND_HEIGHT);
                 break;
             case LOW:
-                liftControl.setSetPoint(TeleOpConfig.LOW_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.LOW_HEIGHT);
                 break;
             case MED:
-                liftControl.setSetPoint(TeleOpConfig.MEDIUM_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.MEDIUM_HEIGHT);
                 break;
             case TALL:
-                liftControl.setSetPoint(TeleOpConfig.TALL_HEIGHT);
+                liftController.setSetPoint(TeleOpConfig.TALL_HEIGHT);
                 break;
         }
     }
 
     public void runLiftPos() {
-        if (!liftControl.atSetPoint()) {
-            double velocity = liftControl.calculate(lift_motor1.getCurrentPosition());
+        if (!liftController.atSetPoint()) {
+            double velocity = liftController.calculate(
+                    lift_motor1.getCurrentPosition()
+            );
             runLift(velocity);
         }
     }
@@ -113,7 +114,7 @@ public class GreenBot extends MarvelsMecanumDrive {
         // this allows for smoother acceleration
         lift_motor1.set(velocity);
         lift_motor2.set(velocity);
-//        lift_motor3.set(-power);
+//        lift_motor3.set(velocity);
     }
 
     // inverts claw state boolean
