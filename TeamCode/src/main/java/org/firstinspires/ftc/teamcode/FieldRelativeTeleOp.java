@@ -36,9 +36,9 @@ public class FieldRelativeTeleOp extends LinearOpMode {
 
         ButtonReader control1A = new ButtonReader(Gamepad1, GamepadKeys.Button.A);
 
-        ButtonReader control2A = new ButtonReader(Gamepad2, GamepadKeys.Button.A);
-        ButtonReader control2B = new ButtonReader(Gamepad2, GamepadKeys.Button.B);
-        ButtonReader control2X = new ButtonReader(Gamepad2, GamepadKeys.Button.X);
+        ButtonReader control2A = new ButtonReader(Gamepad2, GamepadKeys.Button.A); //drop + open claw
+        ButtonReader control2B = new ButtonReader(Gamepad2, GamepadKeys.Button.B); //close claw + lift
+        ButtonReader control2X = new ButtonReader(Gamepad2, GamepadKeys.Button.X); //claw override
 
         ButtonReader control2Up = new ButtonReader(Gamepad2, GamepadKeys.Button.DPAD_UP);
         ButtonReader control2Left = new ButtonReader(Gamepad2, GamepadKeys.Button.DPAD_LEFT);
@@ -65,13 +65,19 @@ public class FieldRelativeTeleOp extends LinearOpMode {
 
 //            constantly moves the claw to its position dictated by "clawOpen"
             scorer.runClaw();
-            telemetry.addData("Status", "servo: servoRight:" + scorer.clawOpen);
+            telemetry.addData("Claw is open:", scorer.clawOpen);
 
-            //runs the lift using analog stick input
-//            scorer.runLift(control2LeftY);
-
+            scorer.liftController.setTolerance(TeleOpConfig.LIFT_E_TOLERANCE, TeleOpConfig.LIFT_V_TOLERANCE);
             scorer.runLiftPos();
-//            gamepad 1's left analog stick:
+            scorer.liftController.setPIDF(
+                    TeleOpConfig.LIFT_P,
+                    TeleOpConfig.LIFT_I,
+                    TeleOpConfig.LIFT_D,
+                    TeleOpConfig.LIFT_F
+            );
+
+            telemetry.addData("Lift position", scorer.liftPos);
+
 
             //Get stick inputs
             double control1LeftY = Gamepad1.getLeftY();
@@ -81,33 +87,28 @@ public class FieldRelativeTeleOp extends LinearOpMode {
 //            gamepad 2's left analog stick:
             double control2LeftY = Gamepad2.getLeftY();
 
-//          runs when the button reader for the b key detects it has been released
+
+
             if (control2X.wasJustPressed()) {
                 scorer.toggleClaw();
             }
-
             if (control2B.wasJustPressed()) {
-                scorer.clawOpen = false;
-                scorer.setLiftPos(PowerplayScorer.HEIGHT_VAL.GROUND);
+                scorer.liftClaw();
+            }
+            if (control2A.wasJustPressed()) {
+                scorer.dropClaw();
             }
 
-            if (control2A.wasJustPressed()) {
-                scorer.setLiftPos(PowerplayScorer.HEIGHT_VAL.ONE);
-                scorer.clawOpen = true;
-            }
 
             if (control2Up.wasJustPressed()) {
                 scorer.setLiftPos(PowerplayScorer.HEIGHT_VAL.TALL);
             }
-
             if (control2Left.wasJustPressed()) {
                 scorer.setLiftPos(PowerplayScorer.HEIGHT_VAL.MED);
             }
-
             if (control2Right.wasJustPressed()) {
                 scorer.setLiftPos(PowerplayScorer.HEIGHT_VAL.LOW);
             }
-
             if (control2Down.wasJustPressed()) {
                 scorer.setLiftPos(PowerplayScorer.HEIGHT_VAL.GROUND);
             }
@@ -121,7 +122,7 @@ public class FieldRelativeTeleOp extends LinearOpMode {
             drivetrain.driveFieldCentric(control1LeftX, control1LeftY, control1RightX);
 
             mytelemetry.addData("Status", "power: x:" + control1LeftX + " y:" + control1LeftY + " z:" + control1RightX);
-            mytelemetry.addData("angle", drivetrain.rotYaw);
+            mytelemetry.addData("Field-relative heading", drivetrain.rotYaw);
             mytelemetry.update();
         }
     }

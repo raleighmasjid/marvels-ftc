@@ -23,6 +23,7 @@ public class PowerplayScorer {
     public SimpleServo clawLeft;
     public SimpleServo clawRight;
     public PIDFController liftController;
+    public String liftPos;
 
     // the following is the code that runs during initialization
     public void init(HardwareMap hw) {
@@ -40,6 +41,7 @@ public class PowerplayScorer {
                 TeleOpConfig.LIFT_D,
                 TeleOpConfig.LIFT_F
         );
+        liftController.setTolerance(TeleOpConfig.LIFT_E_TOLERANCE, TeleOpConfig.LIFT_V_TOLERANCE);
 
         lift_motor1.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         lift_motor2.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
@@ -48,6 +50,7 @@ public class PowerplayScorer {
 //        lift_motor3.setRunMode(Motor.RunMode.VelocityControl);
 //        lift_motor3.setInverted(true);
 
+        liftPos = null;
 
     }
     //  lift motor encoder resolution (ticks):
@@ -69,30 +72,39 @@ public class PowerplayScorer {
         switch (height){
             case ONE:
                 liftController.setSetPoint(TeleOpConfig.HEIGHT_ONE);
+                liftPos = "floor / stack of one";
                 break;
             case TWO:
                 liftController.setSetPoint(TeleOpConfig.HEIGHT_TWO);
+                liftPos = "stack of 2";
                 break;
             case THREE:
                 liftController.setSetPoint(TeleOpConfig.HEIGHT_THREE);
+                liftPos = "stack of 3";
                 break;
             case FOUR:
                 liftController.setSetPoint(TeleOpConfig.HEIGHT_FOUR);
+                liftPos = "stack of 4";
                 break;
             case FIVE:
                 liftController.setSetPoint(TeleOpConfig.HEIGHT_FIVE);
+                liftPos = "stack of 5";
                 break;
             case GROUND:
                 liftController.setSetPoint(TeleOpConfig.HEIGHT_GROUND);
+                liftPos = "ground junction height";
                 break;
             case LOW:
                 liftController.setSetPoint(TeleOpConfig.HEIGHT_LOW);
+                liftPos = "low pole height";
                 break;
             case MED:
                 liftController.setSetPoint(TeleOpConfig.HEIGHT_MEDIUM);
+                liftPos = "medium pole height";
                 break;
             case TALL:
                 liftController.setSetPoint(TeleOpConfig.HEIGHT_TALL);
+                liftPos = "tall pole height";
                 break;
         }
     }
@@ -132,4 +144,14 @@ public class PowerplayScorer {
             clawRight.setPosition(TeleOpConfig.CLAW_RIGHT_CLOSED);
         }
     }
+
+    public void liftClaw() {
+        clawOpen = false;
+        liftController.setSetPoint(TeleOpConfig.HEIGHT_LOW);
+    }
+    public void dropClaw() {
+        liftController.setSetPoint(TeleOpConfig.HEIGHT_ONE);
+        clawOpen = true;
+    }
+
 }

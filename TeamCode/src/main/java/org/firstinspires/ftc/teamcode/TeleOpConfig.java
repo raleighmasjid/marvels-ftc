@@ -23,5 +23,7 @@ public class TeleOpConfig {
     public static double LIFT_I = 0;
     public static double LIFT_D = 0;
     public static double LIFT_F = 0;
-    public static double LIFT_TOLERANCE = 15;
+    public static double LIFT_E_TOLERANCE = 5;
+    public static double LIFT_V_TOLERANCE = 10;
+
 }

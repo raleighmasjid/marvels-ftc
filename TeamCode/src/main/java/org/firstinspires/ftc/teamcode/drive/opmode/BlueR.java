@@ -21,7 +21,7 @@ public class BlueR extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        drive.setPoseEstimate(new Pose2d(35, -60, Math.toRadians(90)));
+        drive.setPoseEstimate(new Pose2d(35, -62.5, Math.toRadians(270)));
 
         //  Initialize telemetry and dashboard
         MultipleTelemetry mytelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -30,20 +30,16 @@ public class BlueR extends LinearOpMode {
         //  initializes code:
         scorer.init(hardwareMap);
 
-        waitForStart();
-
-        if (isStopRequested()) return;
-
-
-        TrajectorySequence traj1 = drive.trajectorySequenceBuilder(new Pose2d(35, -60, Math.toRadians(90)))
-                .splineTo(new Vector2d(35, -25), Math.toRadians(90))
-                .splineTo(new Vector2d(28, -7), Math.toRadians(120))
-                .waitSeconds(0.1)
-                .setReversed(true)
+        TrajectorySequence traj1 = drive.trajectorySequenceBuilder(new Pose2d(35, -62.5, Math.toRadians(180)))
+                .splineTo(new Vector2d(61, -12.5), Math.toRadians(0))
                 .build()
                 ;
 
 
+        waitForStart();
+        if (isStopRequested()) return;
+
         drive.followTrajectorySequence(traj1);
+
     }
 }
